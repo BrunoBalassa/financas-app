@@ -10,10 +10,10 @@ class ApiService {
     }    
     post(url, obj){
         const requestUrl = `${this.apiUrl}${url}`
-       return httpClient.post(requestUrl, obj)
+        return httpClient.post(requestUrl, obj)
     }
-    put(url, obj){
-        const requestUrl = `${this.apiUrl}${url}`
+    put(url, obj) {
+        const requestUrl = `${this.apiUrl}${url}/`
         return httpClient.put(requestUrl,obj)
     }
     delete(url){

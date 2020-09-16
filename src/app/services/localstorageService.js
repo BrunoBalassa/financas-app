@@ -1,4 +1,4 @@
-class LocalStorageSerive {
+export default class LocalStorageSerive {
     static addItem(chave, valor){
         localStorage.setItem(chave,JSON.stringify(valor))
     }
@@ -6,5 +6,7 @@ class LocalStorageSerive {
         const item = localStorage.getItem(chave)
         return JSON.parse(item)
     }
+    static removerItem(chave){
+        localStorage.removeItem(chave)
+    }
 }
-export default LocalStorageSerive

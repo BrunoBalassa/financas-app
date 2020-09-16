@@ -1,8 +1,7 @@
 import React from 'react'
 
 import UsuarioService from '../app/services/usuarioSerivce'
-import LocalStorage from '../app/services/localstorageService'
-
+import {AuthContext} from '../main/provedorAutenticacao'
 class Home extends React.Component {
     state = {
         saldo: 0
@@ -13,7 +12,7 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
-       const usuarioLogado = LocalStorage.obterItem('_usuario_logado')
+       const usuarioLogado = this.context.usuarioAutenticado
 
        this.usuarioService
        .obterSaldoPorUsuario(usuarioLogado.id)
@@ -38,7 +37,7 @@ class Home extends React.Component {
                       Cadastrar Usuário
                       </a>
                     <a className="btn btn-danger btn-lg"
-                        href="https://bootswatch.com/flatly/#" role="button"><i className="fa fa-users"></i>
+                        href="#/consulta-lancamentos" role="button"><i className="fa fa-users"></i>
                      Cadastrar Lançamento
                      </a>
                 </p>
@@ -46,4 +45,5 @@ class Home extends React.Component {
         )
     }
 }
+Home.contextType = AuthContext
 export default Home

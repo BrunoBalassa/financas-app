@@ -1,4 +1,5 @@
 import ApiService from '../apiservice'
+import ErroValidacao from '../exception/erroValidacao'
 
 export default class LancamentoService extends ApiService {
     constructor(){
@@ -6,32 +7,35 @@ export default class LancamentoService extends ApiService {
     }
     obterListaMeses(){
         return  [
-            { label: 'Selecione..', valor: '' },
-            { label: 'Janeiro', valor: 1 },
-            { label: 'Fevereiro', valor: 2 },
-            { label: 'Março', valor: 3 },
-            { label: 'Maio', valor: 4 },
-            { label: 'Junho', valor: 5 },
-            { label: 'Julho', valor: 6 },
-            { label: 'Agosto', valor: 7 },
-            { label: 'Setembro', valor: 8 },
-            { label: 'Outubro', valor: 9 },
-            { label: 'Novembro', valor: 10 },
-            { label: 'Dezembro', valor: 12 }
+            { label: 'Selecione..', value: '' },
+            { label: 'Janeiro', value: 1 },
+            { label: 'Fevereiro', value: 2 },
+            { label: 'Março', value: 3 },
+            { label: 'Maio', value: 4 },
+            { label: 'Junho', value: 5 },
+            { label: 'Julho', value: 6 },
+            { label: 'Agosto', value: 7 },
+            { label: 'Setembro', value: 8 },
+            { label: 'Outubro', value: 9 },
+            { label: 'Novembro', value: 10 },
+            { label: 'Dezembro', value: 12 }
         ]
     
     }
     obterListaTipos() {
         return [
-            { label: 'Selecione...', valor: '' },
-            { label: 'Despesa', valor: 'DESPESA' },
-            { label: 'Receita', valor: 'RECEITA' },
+            { label: 'Selecione...', value: '' },
+            { label: 'Despesa', value: 'DESPESA' },
+            { label: 'Receita', value: 'RECEITA' },
         ]
+    }
+    alterarStatus(id, status){
+        return this.put(`/${id}/atualiza-status`, {status})
     }
     consultar(lancamentoFiltro){
         let params = `?ano=${lancamentoFiltro.ano}`
 
-        if(lancamentoFiltro.mes){
+        if(lancamentoFiltro.mes.value){
             params = `${params}&mes=${lancamentoFiltro.mes}`
         }
         if(lancamentoFiltro.tipo){
@@ -48,5 +52,47 @@ export default class LancamentoService extends ApiService {
         }    
 
         return this.get(params)
+    }
+    deletar(id){
+       return this.delete(`/${id}`)
+    }
+    salvar(lancamento){
+        return this.post('/', lancamento)
+    }
+    obterPorId(id){
+        return this.get(`/${id}`)
+    }
+    atualizar(lancamento){
+        return this.put(`/${lancamento.id}`, lancamento)
+        
+    }
+
+    validar(lancamento) {
+        const erros = []
+
+        if(!lancamento.ano){
+            erros.push("Informe o Ano.")
+        } 
+
+        if(!lancamento.mes){
+            erros.push("Informe o Mes.")
+        }    
+
+        if(!lancamento.valor){
+            erros.push("Informe o Valor.")
+        } 
+
+        if(!lancamento.descricao){
+            erros.push("Informe o Descricao.")
+        } 
+        
+        if(!lancamento.tipo){
+            erros.push("Informe o Tipo.")
+        } 
+
+        if(erros && erros.length > 0){
+            throw new ErroValidacao(erros)
+        }
+
     }
 }

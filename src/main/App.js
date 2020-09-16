@@ -6,19 +6,23 @@ import 'toastr/build/toastr.min.js'
 import '../custom.css'
 import 'toastr/build/toastr.css'
 
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import ProvedorAutenticacao from './provedorAutenticacao'
+
+
 class App extends React.Component {
-  render(){
+  render() {
     return (
-    <>
-      <Navbar/>
-      <div className='container'>
-         <Rotas/>
-       </div>
-    </>  
+      <ProvedorAutenticacao>
+        <Navbar />
+        <div className='container'>
+          <Rotas />
+        </div>
+      </ProvedorAutenticacao>
     )
   }
-  
-    
 }
 
 export default App;
